@@ -19,4 +19,8 @@ public class BasePage {
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
+
+    public void quit(){
+        driver.quit();
+    }
 }

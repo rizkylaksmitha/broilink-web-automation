@@ -1,17 +1,20 @@
 package runner;
 
-import org.junit.platform.suite.api.*;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
 
-@Suite
-@IncludeEngines("cucumber")
-@SelectClasspathResource("features")
-@ConfigurationParameter(
-        key = "cucumber.glue",
-        value = "stepdefs"
-)
-@ConfigurationParameter(
-        key = "cucumber.plugin",
-        value = "pretty, html:target/cucumber-report.html"
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources/features",
+        glue = "stepDef",
+//        tags = "@InputLaporanHarian",
+        plugin = {
+                "pretty",
+                "html:target/cucumber-reports.html"
+        },
+
+        monochrome = true
 )
 public class TestRunner {
 }
