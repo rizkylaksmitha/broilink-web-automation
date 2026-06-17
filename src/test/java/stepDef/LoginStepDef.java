@@ -3,7 +3,7 @@ package stepDef;
 import pages.LoginPage;
 import utils.DriverManager;
 import io.cucumber.java.en.*;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions; // 🔥 SEKARANG PAKAI JUNIT 5 JUPITER
 import org.openqa.selenium.WebDriver;
 
 public class LoginStepDef {
@@ -38,21 +38,25 @@ public class LoginStepDef {
     @Then("Berhasil login dan masuk ke Dashboard Admin")
     public void berhasil_login_dan_masuk_ke_dashboard_admin() {
         try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
-        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"));
+        // JUnit 5
+        Assertions.assertTrue(driver.getCurrentUrl().contains("dashboard"));
     }
 
     @Then("Sistem menampilkan pesan error login")
     public void sistem_menampilkan_pesan_error_login() {
-        Assert.assertFalse(loginPage.getErrorMessage().isEmpty());
+        // JUnit 5
+        Assertions.assertFalse(loginPage.getErrorMessage().isEmpty());
     }
 
     @Then("Sistem menolak login atau menampilkan pesan validasi")
     public void sistem_menolak_login_atau_menampilkan_pesan_validasi() {
-        Assert.assertFalse(loginPage.getErrorMessage().isEmpty());
+        // JUnit 5
+        Assertions.assertFalse(loginPage.getErrorMessage().isEmpty());
     }
 
     @Then("Sistem menerima input password")
     public void sistem_menerima_input_password() {
-        Assert.assertTrue(loginPage.getPasswordInputValue().length() >= 6);
+        // JUnit 5
+        Assertions.assertTrue(loginPage.getPasswordInputValue().length() >= 6);
     }
 }

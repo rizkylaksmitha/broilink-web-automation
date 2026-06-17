@@ -18,7 +18,6 @@ public class ManagementKandangPage extends BasePage {
     private By btnSimpanLuas = By.xpath("//button[normalize-space()='Simpan Luas']");
     private By btnSimpanJumlah = By.xpath("//button[normalize-space()='Simpan Jumlah']");
 
-    // Simpan teks notifikasi terakhir yang berhasil ditangkap
     private String notifikasiTerakhir = "";
 
     private By alertNotifikasi = By.xpath(

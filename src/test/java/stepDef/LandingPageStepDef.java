@@ -3,7 +3,7 @@ package stepDef;
 import pages.LandingPage;
 import utils.DriverManager;
 import io.cucumber.java.en.*;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions; // 🔥 SEKARANG PAKAI JUNIT 5 JUPITER
 import org.openqa.selenium.WebDriver;
 
 public class LandingPageStepDef {
@@ -12,7 +12,8 @@ public class LandingPageStepDef {
 
     @Given("Browser dalam kondisi aktif")
     public void browser_dalam_kondisi_aktif() {
-        Assert.assertNotNull(driver);
+        // JUnit 5
+        Assertions.assertNotNull(driver);
     }
 
     @When("User membuka URL BroiLink {string}")
@@ -22,7 +23,8 @@ public class LandingPageStepDef {
 
     @Then("Landing Page berhasil ditampilkan")
     public void landing_page_berhasil_ditampilkan() {
-        Assert.assertTrue(landingPage.isHeroSectionDisplayed());
+        // JUnit 5
+        Assertions.assertTrue(landingPage.isHeroSectionDisplayed());
     }
 
     @Given("Landing Page terbuka")
@@ -37,6 +39,7 @@ public class LandingPageStepDef {
 
     @Then("Sistem mengarahkan ke halaman Login")
     public void sistem_megarahkan_ke_halaman_login() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("login"));
+        // JUnit 5
+        Assertions.assertTrue(driver.getCurrentUrl().contains("login"));
     }
 }

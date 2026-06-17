@@ -4,7 +4,7 @@ import pages.LoginPage;
 import pages.ManagementKandangPage;
 import utils.DriverManager;
 import io.cucumber.java.en.*;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions; // 🔥 SEKARANG PAKAI JUNIT 5 JUPITER
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -80,17 +80,17 @@ public class ManagementKandangStepDef {
     @Then("Hubungan relasi kerja berhasil disimpan dan sistem menampilkan notifikasi {string}")
     public void hubungan_relasi_kerja_berhasil_disimpan(String msg) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        // Menunggu toast locator berisi teks pesan sukses penugasan
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), msg));
         } catch (Exception e) {
             // Biarkan asersi di bawah menangkap ketidaksesuaian jika timeout
         }
 
-        Assert.assertEquals(
-                "Pesan notifikasi penugasan tidak sesuai!",
+        // JUnit 5: urutannya (ekspektasi, aktual, "pesan eror kustom")
+        Assertions.assertEquals(
                 msg,
-                kandangPage.getNotifikasiTeks()
+                kandangPage.getNotifikasiTeks(),
+                "Pesan notifikasi penugasan tidak sesuai!"
         );
     }
 
@@ -107,43 +107,40 @@ public class ManagementKandangStepDef {
     @Then("Data sukses disimpan dan sistem menampilkan notifikasi {string}")
     public void data_sukses_disimpan(String msg) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        // Menunggu toast sukses muncul
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), msg));
         } catch (Exception e) {
-            // No-op, ditangani Assert
+            // No-op
         }
 
-        Assert.assertEquals(
-                "Pesan notifikasi sukses simpan kandang salah!",
+        // JUnit 5: urutannya (ekspektasi, aktual, "pesan eror kustom")
+        Assertions.assertEquals(
                 msg,
-                kandangPage.getNotifikasiTeks()
+                kandangPage.getNotifikasiTeks(),
+                "Pesan notifikasi sukses simpan kandang salah!"
         );
     }
 
     @Then("Sistem menolak simpan dan menampilkan pesan eror {string}")
     public void sistem_menolak_simpan_dan_menampilkan_pesan_eror(String errorMsg) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        // KRUSIAL: Menunggu teks di elemen alert/toast berubah menjadi teks eror baru,
-        // bukan teks sukses dari TC sebelumnya.
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), errorMsg));
         } catch (Exception e) {
-            // Jika dalam 5 detik tidak berubah ke teks eror, biarkan Assert di bawah menggagalkan test
+            // No-op
         }
 
-        Assert.assertEquals(
-                "Pesan eror batas minimum tidak sesuai!",
+        // JUnit 5: urutannya (ekspektasi, aktual, "pesan eror kustom")
+        Assertions.assertEquals(
                 errorMsg,
-                kandangPage.getNotifikasiTeks()
+                kandangPage.getNotifikasiTeks(),
+                "Pesan eror batas minimum tidak sesuai!"
         );
     }
 
     @Then("Sistem menolak simpan dan menampilkan pesan eror {string} atau {string}")
     public void sistem_menolak_simpan_dan_menampilkan_pesan_eror_atau(String err1, String err2) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        // Menunggu salah satu teks eror muncul pada elemen toast
         try {
             wait.until(ExpectedConditions.or(
                     ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), err1),
@@ -155,9 +152,11 @@ public class ManagementKandangStepDef {
 
         String aktualTeks = kandangPage.getNotifikasiTeks();
         boolean isMatch = aktualTeks.contains(err1) || aktualTeks.contains(err2);
-        Assert.assertTrue(
-                "Pesan eror kombinasi tidak sesuai! Teks aktual: " + aktualTeks,
-                isMatch
+
+        // JUnit 5: urutannya (kondisi_boolean, "pesan eror kustom")
+        Assertions.assertTrue(
+                isMatch,
+                "Pesan eror kombinasi tidak sesuai! Teks aktual: " + aktualTeks
         );
     }
 }
