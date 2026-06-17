@@ -50,4 +50,8 @@ public class BasePage {
         Select dropdown = new Select(element);
         dropdown.selectByVisibleText(text);
     }
+
+    public void quit(){
+        driver.quit();
+    }
 }
