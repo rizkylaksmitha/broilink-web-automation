@@ -1,59 +1,58 @@
 package stepDef;
 
-import io.cucumber.java.en.*;
-import org.junit.Assert;
-
 import pages.LoginPage;
 import utils.DriverManager;
+import io.cucumber.java.en.*;
+import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 public class LoginStepDef {
+    private WebDriver driver;
+    private LoginPage loginPage;
 
-    LoginPage loginPage;
+    @Given("Halaman login terbuka")
+    public void halaman_login_terbuka() {
+        // Pemicu Driver langsung diambil di sini saat langkah pertama berjalan
+        this.driver = DriverManager.getDriver();
+        this.loginPage = new LoginPage(this.driver);
 
-    @Given("user berada di halaman login")
-    public void user_berada_di_halaman_login() {
+        driver.get("http://localhost:5173/login");
 
-        DriverManager.getDriver()
-                .get("http://localhost:5173/login");
-
-        loginPage =
-                new LoginPage(DriverManager.getDriver());
+        // KITA KASIH JEDA MANUAL 3 DETIK (Hanya untuk debugging)
+        // Biar kita yakin halamannya selesai loading total sebelum diketik
+        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
     }
 
-    @When("user mengisi username {string}")
-    public void user_mengisi_username(String username) {
-
+    @When("User memasukkan username {string} dan password {string}")
+    public void user_memasukkan_username_dan_password(String username, String password) {
+        // Kita paksa ketik langsung di sini jika loginPage bermasalah
         loginPage.inputUsername(username);
-    }
-
-    @And("user mengisi password {string}")
-    public void user_mengisi_password(String password) {
-
         loginPage.inputPassword(password);
     }
 
-    @And("user klik tombol login")
-    public void user_klik_tombol_login() {
-
-        loginPage.clickLoginButton();
+    @When("User mengklik tombol Masuk")
+    public void user_mengklik_tombol_masuk() {
+        loginPage.klikMasuk();
     }
 
-    @Then("user berhasil masuk dashboard")
-    public void user_berhasil_masuk_dashboard() {
-
-        String url =
-                DriverManager.getDriver().getCurrentUrl();
-
-        Assert.assertTrue(
-                url.contains("dashboard")
-        );
+    @Then("Berhasil login dan masuk ke Dashboard Admin")
+    public void berhasil_login_dan_masuk_ke_dashboard_admin() {
+        try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"));
     }
 
-    @Then("muncul pesan login gagal")
-    public void muncul_pesan_login_gagal() {
+    @Then("Sistem menampilkan pesan error login")
+    public void sistem_menampilkan_pesan_error_login() {
+        Assert.assertFalse(loginPage.getErrorMessage().isEmpty());
+    }
 
-        Assert.assertTrue(
-                loginPage.isErrorMessageDisplayed()
-        );
+    @Then("Sistem menolak login atau menampilkan pesan validasi")
+    public void sistem_menolak_login_atau_menampilkan_pesan_validasi() {
+        Assert.assertFalse(loginPage.getErrorMessage().isEmpty());
+    }
+
+    @Then("Sistem menerima input password")
+    public void sistem_menerima_input_password() {
+        Assert.assertTrue(loginPage.getPasswordInputValue().length() >= 6);
     }
 }

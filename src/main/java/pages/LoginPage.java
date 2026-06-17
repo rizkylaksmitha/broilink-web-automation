@@ -2,104 +2,55 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
-public class LoginPage extends BasePage {
+public class LoginPage {
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-    private final String URL = "http://localhost:5173/login";
-
-    // Locator
-    private final By usernameField = By.id("username");
-
-    private final By passwordField = By.id("password");
-
-    private final By loginButton = By.cssSelector(".login-button");
-
-    private final By errorMessage = By.cssSelector(".login-error");
+    private By txtUsername = By.xpath("//input[@type='text' or @placeholder='Username' or contains(@name,'username')]");
+    private By txtPassword = By.xpath("//input[@type='password' or @placeholder='Password' or contains(@name,'password')]");
+    private By btnMasuk = By.xpath("//button[contains(text(),'Masuk') or @type='submit']");
+    private By msgError = By.xpath("//div[contains(@class,'error') or contains(@class,'alert')]");
 
     public LoginPage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Buka halaman login
-    public void open() {
-        driver.get(URL);
-    }
-
-    // Input username
     public void inputUsername(String username) {
-        driver.findElement(usernameField).clear();
-        driver.findElement(usernameField).sendKeys(username);
+        wait.until(ExpectedConditions.elementToBeClickable(txtUsername));
+        driver.findElement(txtUsername).clear();
+        driver.findElement(txtUsername).sendKeys(username);
     }
 
-    // Input password
     public void inputPassword(String password) {
-        driver.findElement(passwordField).clear();
-        driver.findElement(passwordField).sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(txtPassword));
+        driver.findElement(txtPassword).clear();
+        driver.findElement(txtPassword).sendKeys(password);
     }
 
-    // Klik tombol login
-    public void clickLoginButton() {
-        driver.findElement(loginButton).click();
-    }
-
-    // Login sekaligus
-    public void login(String username, String password) {
-
-        inputUsername(username);
-
-        inputPassword(password);
-
-        clickLoginButton();
-    }
-
-    // Cek masih di halaman login
-    public boolean isOnLoginPage() {
-
-        return driver.getCurrentUrl().contains("/login");
-    }
-
-    // Cek pesan error login
-    public boolean isErrorMessageDisplayed() {
-
+    public void klikMasuk() {
+        wait.until(ExpectedConditions.elementToBeClickable(btnMasuk));
+        driver.findElement(btnMasuk).click();
         try {
-
-            return driver.findElement(errorMessage).isDisplayed();
-
-        } catch (Exception e) {
-
-            return false;
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    // Cek field username tampil
-    public boolean isUsernameFieldVisible() {
-
+    public String getErrorMessage() {
         try {
-
-            return driver.findElement(usernameField).isDisplayed();
-
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(msgError)).getText();
         } catch (Exception e) {
-
-            return false;
+            return "";
         }
     }
 
-    // Cek field password tampil
-    public boolean isPasswordFieldVisible() {
-
-        try {
-
-            return driver.findElement(passwordField).isDisplayed();
-
-        } catch (Exception e) {
-
-            return false;
-        }
-    }
-
-    // Tunggu proses login
-    public void waitForSuccessfulLogin() throws InterruptedException {
-
-        Thread.sleep(3000);
+    public String getPasswordInputValue() {
+        return driver.findElement(txtPassword).getAttribute("value");
     }
 }

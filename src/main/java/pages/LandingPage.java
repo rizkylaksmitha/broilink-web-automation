@@ -3,68 +3,30 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LandingPage extends BasePage {
+public class LandingPage {
+    private WebDriver driver;
 
-    private final String URL = "http://localhost:5173/";
-
-    private By logo =
-            By.className("logo-icon");
-
-    private By navbar =
-            By.className("nav-desktop");
-
-    private By loginButton =
-            By.xpath("//button[contains(text(),'Gabung')]");
+    // Selector elemen disesuaikan dengan struktur umum Landing Page
+    private By tombolGabung = By.xpath("//button[contains(text(),'Gabung') or contains(@id,'gabung')]");
+    private By heroSection = By.xpath("//section[contains(@class,'hero') or contains(@id,'hero')]");
 
     public LandingPage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
     }
 
-    public void open() {
-        driver.get(URL);
+    public void bukaHalamanUtama() {
+        driver.get("http://localhost:5173");
     }
 
-    public boolean isPageLoaded() {
-        return driver.getCurrentUrl().contains("5173");
+    public void klikTombolGabung() {
+        driver.findElement(tombolGabung).click();
     }
 
-    public boolean isLogoDisplayed() {
-
+    public boolean isHeroSectionDisplayed() {
         try {
-            return driver.findElement(logo).isDisplayed();
+            return driver.findElement(heroSection).isDisplayed();
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public boolean isNavbarDisplayed() {
-
-        try {
-            return driver.findElement(navbar).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public boolean isNavbarVisible() {
-        return isNavbarDisplayed();
-    }
-
-    public boolean isLoginButtonVisible() {
-
-        try {
-            return driver.findElement(loginButton).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void clickGabungButton() {
-        driver.findElement(loginButton).click();
-    }
-
-    public LoginPage clickLogin() {
-        clickGabungButton();
-        return new LoginPage(driver);
     }
 }

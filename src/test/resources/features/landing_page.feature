@@ -1,15 +1,11 @@
-Feature: Landing Page BroiLink
+Feature: Halaman Utama BroiLink
 
-  Scenario: Membuka halaman utama BroiLink
-    When pengguna mengakses halaman utama BroiLink
-    Then halaman landing berhasil tampil
+  Scenario: TC-LP-01 Membuka halaman utama BroiLink
+    Given Browser dalam kondisi aktif
+    When User membuka URL BroiLink "http://localhost:5173"
+    Then Landing Page berhasil ditampilkan
 
-  Scenario: Tombol login tersedia di landing page
-    When pengguna mengakses halaman utama BroiLink
-    Then tombol atau link menuju halaman login tersedia
-
-  Scenario: Navigasi dari landing page ke login page
-    When pengguna mengakses halaman utama BroiLink
-    And pengguna mengklik tombol login
-    Then pengguna diarahkan ke halaman login
-    And URL halaman mengandung "/login"
+  Scenario: TC-LP-02 Navigasi dari Landing Page ke Login
+    Given Landing Page terbuka
+    When User mengklik tombol Gabung
+    Then Sistem mengarahkan ke halaman Login
