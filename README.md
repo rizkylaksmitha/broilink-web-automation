@@ -15,9 +15,17 @@
 
 # Deskripsi SUT (System Under Test)
 
-BroiLink merupakan aplikasi berbasis web yang digunakan untuk membantu pengelolaan peternakan ayam secara digital. Sistem ini menyediakan berbagai fitur untuk mengelola pengguna, kandang, monitoring sensor IoT, laporan operasional, serta dashboard monitoring yang dapat digunakan oleh admin maupun owner.
+Deskripsi SUT (System Under Test)
 
-Pada proyek ini dilakukan pengujian otomatis (Automation Testing) untuk memastikan setiap fitur utama dapat berjalan sesuai kebutuhan pengguna dan menghasilkan keluaran yang benar.
+BroiLink merupakan aplikasi berbasis web yang digunakan untuk membantu pengelolaan peternakan ayam secara digital. Sistem ini menyediakan berbagai fitur untuk mendukung proses operasional peternakan, mulai dari pengelolaan data kandang, monitoring kondisi lingkungan kandang melalui sensor IoT, pengelolaan pengguna, hingga pencatatan aktivitas peternakan.
+
+Sistem BroiLink memiliki tiga jenis pengguna (role), yaitu Admin, Owner, dan Peternak. Setiap role memiliki hak akses dan fitur yang berbeda sesuai dengan tugas dan tanggung jawabnya.
+
+Admin bertugas mengelola data pengguna, data kandang, konfigurasi sistem, serta melakukan pengawasan terhadap seluruh aktivitas yang terjadi pada sistem.
+Owner bertugas melakukan monitoring kondisi peternakan melalui dashboard monitoring, melihat laporan operasional, serta memantau data sensor yang dikirimkan oleh perangkat IoT.
+Peternak bertugas melakukan pencatatan aktivitas harian, menginput hasil kerja, serta mengelola informasi yang berkaitan dengan operasional kandang.
+
+Pada proyek ini dilakukan pengujian otomatis (Automation Testing) menggunakan Selenium WebDriver, Cucumber, dan Page Object Model (POM) untuk memastikan setiap fitur pada ketiga role tersebut dapat berjalan sesuai kebutuhan pengguna, menghasilkan keluaran yang benar, serta meminimalkan kemungkinan terjadinya bug pada sistem
 
 ---
 
