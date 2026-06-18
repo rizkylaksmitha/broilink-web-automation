@@ -3,7 +3,7 @@ Feature: Input Laporan Harian
 
   Background:
     Given user dalam keadaaan terautentikasi sebagai peternak
-
+#  @Focus
   Scenario Outline: TC-LHP Pengisian laporan harian peternak
     When user mengisi formulir laporan harian dengan data berikut:
       | pakan    | <laporan_pakan_harian>    |

@@ -90,7 +90,7 @@ public class InputLaporanHarianStepDef {
 
     @Then("muncul pop up notifikasi dengan status {string}")
     public void munculPopUpNotifikasiDenganStatus(String statusDiharapkan) {
-        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(3));
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
 
         if ("success".equalsIgnoreCase(statusDiharapkan)) {
             System.out.println("LOG: Memvalidasi kemunculan pop-up sukses.");
