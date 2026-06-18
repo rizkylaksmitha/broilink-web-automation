@@ -90,21 +90,28 @@ public class InputLaporanHarianStepDef {
 
     @Then("muncul pop up notifikasi dengan status {string}")
     public void munculPopUpNotifikasiDenganStatus(String statusDiharapkan) {
-        System.out.println("LOG: Memvalidasi kemunculan pop-up sukses.");
         WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(3));
 
-        boolean isSuccess = false;
-        try {
-            org.openqa.selenium.Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-            System.out.println("LOG ALERT HANDLING: Menutup otomatis alert browser -> " + alert.getText());
-            alert.accept();
-            isSuccess = true;
-        } catch (Exception e) {
-            isSuccess = ihkPage.isSuccessNotificationDisplayed() ||
-                    DriverManager.getDriver().getCurrentUrl().contains("input");
+        if ("success".equalsIgnoreCase(statusDiharapkan)) {
+            System.out.println("LOG: Memvalidasi kemunculan pop-up sukses.");
+            boolean isSuccess = ihkPage.isSuccessNotificationDisplayed();
+            Assertions.assertTrue(isSuccess, "Gagal: Pop-up sukses tidak muncul!");
+        } else if ("failed".equalsIgnoreCase(statusDiharapkan)) {
+            System.out.println("LOG: Memvalidasi kemunculan browser alert error.");
+            try {
+                org.openqa.selenium.Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+                System.out.println("LOG ALERT: " + alert.getText());
+                alert.accept();
+            } catch (Exception e) {
+                Assertions.fail("Gagal: Browser alert validation error tidak muncul!");
+            }
+        } else if ("invalid_form".equalsIgnoreCase(statusDiharapkan)) {
+            System.out.println("LOG: Memvalidasi bahwa HTML5 validation memblokir form (field kosong).");
+            boolean isInvalid = ihkPage.isFormHtml5Invalid();
+            Assertions.assertTrue(isInvalid, "Gagal: Form harusnya invalid karena ada field kosong!");
+        } else {
+            Assertions.fail("Status tidak dikenali: " + statusDiharapkan);
         }
-
-        Assertions.assertTrue(isSuccess, "Gagal: Pop-up sukses tidak muncul atau terhalang alert browser!");
     }
 
     @org.junit.After

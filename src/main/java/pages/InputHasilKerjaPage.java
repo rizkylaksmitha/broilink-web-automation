@@ -21,14 +21,23 @@ public class InputHasilKerjaPage extends BasePage {
     }
 
     public void isiLaporanHarian(String pakan, String minum, String bobot, String kematian) {
-        driver.findElement(locator.INPUT_PAKAN).sendKeys(pakan);
-        driver.findElement(locator.INPUT_MINUM).sendKeys(minum);
-        driver.findElement(locator.INPUT_BOBOT).sendKeys(bobot);
-        driver.findElement(locator.INPUT_KEMATIAN).sendKeys(kematian);
+        writeText(locator.INPUT_PAKAN, pakan);
+        writeText(locator.INPUT_MINUM, minum);
+        writeText(locator.INPUT_BOBOT, bobot);
+        writeText(locator.INPUT_KEMATIAN, kematian);
     }
 
     public void klikKirim() {
-        driver.findElement(locator.TOMBOL_KIRIM).click();
+        click(locator.TOMBOL_KIRIM);
+    }
+
+    public boolean isFormHtml5Invalid() {
+        try {
+            org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+            return (Boolean) js.executeScript("return !document.querySelector('form').checkValidity();");
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isSuccessNotificationDisplayed() {

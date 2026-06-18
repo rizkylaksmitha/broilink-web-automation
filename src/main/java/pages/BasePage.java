@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -23,11 +24,13 @@ public class BasePage {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
-    // Fungsi pembungkus untuk mengetik teks (Membersihkan kolom terlebih dahulu)
+    // Fungsi pembungkus untuk mengetik teks (Membersihkan kolom dengan simulasi keyboard agar React state ter-update)
     protected void writeText(By locator, String text) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        element.clear();
-        element.sendKeys(text);
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        if (text != null && !text.isEmpty()) {
+            element.sendKeys(text);
+        }
     }
 
     // Fungsi pembungkus untuk mengambil teks dari elemen web

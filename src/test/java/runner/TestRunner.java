@@ -13,5 +13,9 @@ import org.junit.platform.suite.api.*;
         key = "cucumber.plugin",
         value = "pretty, html:target/cucumber-report.html"
 )
+//@ConfigurationParameter(
+//        key = "cucumber.filter.tags",
+//        value = "@Focus"
+//)
 public class TestRunner {
 }
