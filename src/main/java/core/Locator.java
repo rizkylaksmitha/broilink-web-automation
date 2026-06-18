@@ -17,5 +17,10 @@ public class Locator {
     public final By INPUT_KEMATIAN = By.xpath("//h3[text()='Tingkat Kematian']/following-sibling::input");
     public final By TOMBOL_KIRIM = By.xpath("//button[@type='submit']");
 
+    public final By INPUT_EDIT_NO_WA = By.xpath("//input[@placeholder='Masukkan nomor WhatsApp']");
+    public final By INPUT_EDIT_EMAIL = By.xpath("//input[@placeholder='Masukkan email']");
+    public final By BUTTON_SIMPAN_PROFILE = By.xpath("//button[text()='Simpan']");
+    public final By PROFILE_SUCCESS_POPUP = By.xpath("//span[text()='Profil berhasil diperbarui']");
+
     public final By IHK_SUCCESS = By.xpath("//span[text()='Laporan Berhasil Terkirim']");
 }

@@ -1,55 +1,42 @@
 package stepDef;
 
-import io.cucumber.java.en.*;
-import org.junit.Assert;
-
 import pages.LandingPage;
 import utils.DriverManager;
+import io.cucumber.java.en.*;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.WebDriver;
 
 public class LandingPageStepDef {
+    WebDriver driver = DriverManager.getDriver();
+    LandingPage landingPage = new LandingPage(driver);
 
-    LandingPage landingPage;
-
-    @Given("user membuka landing page")
-    public void user_membuka_landing_page() {
-
-        DriverManager.getDriver()
-                .get("http://localhost:5173");
-
-        landingPage =
-                new LandingPage(DriverManager.getDriver());
+    @Given("Browser dalam kondisi aktif")
+    public void browser_dalam_kondisi_aktif() {
+        Assertions.assertNotNull(driver);
     }
 
-    @Then("landing page berhasil tampil")
-    public void landing_page_berhasil_tampil() {
-
-        Assert.assertTrue(
-                landingPage.isLogoDisplayed()
-        );
+    @When("User membuka URL BroiLink {string}")
+    public void user_membuka_url_broi_link(String url) {
+        driver.get(url);
     }
 
-    @Then("navbar tampil")
-    public void navbar_tampil() {
-
-        Assert.assertTrue(
-                landingPage.isNavbarDisplayed()
-        );
+    @Then("Landing Page berhasil ditampilkan")
+    public void landing_page_berhasil_ditampilkan() {
+        Assertions.assertTrue(landingPage.isHeroSectionDisplayed());
     }
 
-    @When("user klik tombol gabung")
-    public void user_klik_tombol_gabung() {
-
-        landingPage.clickGabungButton();
+    @Given("Landing Page terbuka")
+    public void landing_page_terbuka() {
+        landingPage.bukaHalamanUtama();
     }
 
-    @Then("berpindah ke halaman login")
-    public void berpindah_ke_halaman_login() {
+    @When("User mengklik tombol Gabung")
+    public void user_mengklik_tombol_gabung() {
+        landingPage.klikTombolGabung();
+    }
 
-        String currentUrl =
-                DriverManager.getDriver().getCurrentUrl();
-
-        Assert.assertTrue(
-                currentUrl.contains("login")
-        );
+    @Then("Sistem mengarahkan ke halaman Login")
+    public void sistem_megarahkan_ke_halaman_login() {
+        Assertions.assertTrue(driver.getCurrentUrl().contains("login"));
     }
 }

@@ -1,32 +1,44 @@
-Feature: Login BroiLink
+Feature: Modul Login BroiLink
 
   Background:
-    Given pengguna membuka browser
-    And pengguna membuka halaman login
+    Given Halaman login terbuka
 
-  Scenario: Login dengan username dan password valid
-    When pengguna memasukkan email "admin" dan password "admin123"
-    And pengguna mengklik tombol masuk
-    Then pengguna berhasil login
+  Scenario: TC-LG-01 Login valid
+    When User memasukkan username "admin" dan password "password"
+    And User mengklik tombol Masuk
+    Then Berhasil login dan masuk ke Dashboard Admin
 
-  Scenario: Login dengan username tidak valid
-    When pengguna memasukkan email "salahuser" dan password "admin123"
-    And pengguna mengklik tombol masuk
-    Then pesan error login ditampilkan
-    And pengguna tetap di halaman login
+  Scenario: TC-LG-02 Login dengan username tidak valid
+    When User memasukkan username "admin_salah" dan password "password"
+    And User mengklik tombol Masuk
+    Then Sistem menampilkan pesan error login
 
-  Scenario: Login dengan password tidak valid
-    When pengguna memasukkan email "admin" dan password "salahpassword"
-    And pengguna mengklik tombol masuk
-    Then pesan error login ditampilkan
-    And pengguna tetap di halaman login
+  Scenario: TC-LG-03 Login dengan password tidak valid
+    When User memasukkan username "admin" dan password "salah123"
+    And User mengklik tombol Masuk
+    Then Sistem menampilkan pesan error login
 
-  Scenario: Login dengan username kosong
-    When pengguna memasukkan email "" dan password "admin123"
-    And pengguna mengklik tombol masuk
-    Then form tidak dapat disubmit atau pesan error ditampilkan
+  Scenario: TC-LG-04 Login dengan username kosong
+    When User memasukkan username "" dan password "password"
+    And User mengklik tombol Masuk
+    Then Sistem menolak login atau menampilkan pesan validasi
 
-  Scenario: Login dengan password kosong
-    When pengguna memasukkan email "admin" dan password ""
-    And pengguna mengklik tombol masuk
-    Then form tidak dapat disubmit atau pesan error ditampilkan
+  Scenario: TC-LG-05 Login dengan password kosong
+    When User memasukkan username "admin" dan password ""
+    And User mengklik tombol Masuk
+    Then Sistem menolak login atau menampilkan pesan validasi
+
+  Scenario: TC-LG-06 Login dengan password kurang dari batas minimum (BVA)
+    When User memasukkan username "admin" dan password "passwor"
+    And User mengklik tombol Masuk
+    Then Sistem menolak login atau menampilkan pesan validasi
+
+  Scenario: TC-LG-07 Login dengan password tepat batas minimum (BVA)
+    When User memasukkan username "admin" dan password "password"
+    And User mengklik tombol Masuk
+    Then Sistem menerima input password
+
+  Scenario: TC-LG-08 Login dengan password di atas batas minimum (BVA)
+    When User memasukkan username "admin" dan password "passwordd"
+    And User mengklik tombol Masuk
+    Then Sistem menerima input password

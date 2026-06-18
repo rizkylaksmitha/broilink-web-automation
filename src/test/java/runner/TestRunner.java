@@ -1,20 +1,21 @@
 package runner;
 
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
+import org.junit.platform.suite.api.*;
 
-@RunWith(Cucumber.class)
-@CucumberOptions(
-        features = "src/test/resources/features",
-        glue = "stepDef",
-//        tags = "@InputLaporanHarian",
-        plugin = {
-                "pretty",
-                "html:target/cucumber-reports.html"
-        },
-
-        monochrome = true
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("features")
+@ConfigurationParameter(
+        key = "cucumber.glue",
+        value = "stepDef"
 )
+@ConfigurationParameter(
+        key = "cucumber.plugin",
+        value = "pretty, html:target/cucumber-report.html"
+)
+//@ConfigurationParameter(
+//        key = "cucumber.filter.tags",
+//        value = "@Focus"
+//)
 public class TestRunner {
 }

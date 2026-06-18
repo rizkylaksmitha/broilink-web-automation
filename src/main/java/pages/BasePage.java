@@ -1,23 +1,57 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class BasePage {
-
     protected WebDriver driver;
+    protected WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver, this);
+        // Menambahkan Explicit Wait 15 detik agar pengetesan lebih stabil
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
-    public String getPageTitle() {
-        return driver.getTitle();
+    // Fungsi pembungkus untuk klik elemen (Menunggu hingga elemen siap diklik)
+    protected void click(By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
-    public String getCurrentUrl() {
-        return driver.getCurrentUrl();
+    // Fungsi pembungkus untuk mengetik teks (Membersihkan kolom dengan simulasi keyboard agar React state ter-update)
+    protected void writeText(By locator, String text) {
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        if (text != null && !text.isEmpty()) {
+            element.sendKeys(text);
+        }
+    }
+
+    // Fungsi pembungkus untuk mengambil teks dari elemen web
+    protected String readText(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+    }
+
+    // Fungsi pembungkus untuk memeriksa apakah elemen muncul di layar
+    protected boolean isDisplayed(By locator) {
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Fungsi pembungkus untuk memilih opsi pada Dropdown Select
+    protected void selectDropdownByText(By locator, String text) {
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        Select dropdown = new Select(element);
+        dropdown.selectByVisibleText(text);
     }
 
     public void quit(){
