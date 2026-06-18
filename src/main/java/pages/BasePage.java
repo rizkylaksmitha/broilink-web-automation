@@ -14,7 +14,7 @@ public class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        // Menambahkan Explicit Wait 15 detik agar pengetesan lebih stabil saat loading local host XAMPP
+        // Menambahkan Explicit Wait 15 detik agar pengetesan lebih stabil
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 

@@ -7,7 +7,7 @@ import org.junit.platform.suite.api.*;
 @SelectClasspathResource("features")
 @ConfigurationParameter(
         key = "cucumber.glue",
-        value = "stepdefs"
+        value = "stepDef"
 )
 @ConfigurationParameter(
         key = "cucumber.plugin",

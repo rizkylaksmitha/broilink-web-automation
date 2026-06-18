@@ -56,7 +56,6 @@ public class ManagementKandangPage extends BasePage {
     }
 
     // Tangkap notifikasi segera setelah tombol diklik
-    // Pakai WebDriverWait pendek (5 detik) agar tidak terlambat
     private String tangkapNotifikasi() {
         try {
             WebDriverWait waitCepat = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -111,7 +110,6 @@ public class ManagementKandangPage extends BasePage {
 
     // Kembalikan notifikasi terakhir yang sudah tersimpan
     public String getNotifikasiTeks() {
-        // Coba tangkap lagi kalau belum ada
         if (notifikasiTerakhir.isEmpty()) {
             tangkapNotifikasi();
         }

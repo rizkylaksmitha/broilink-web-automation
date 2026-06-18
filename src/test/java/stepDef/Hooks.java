@@ -9,12 +9,11 @@ public class Hooks {
 
     @Before
     public void setUp() {
-        // JANGAN delete cookies — supaya sesi login tetap hidup antar scenario
         DriverManager.getDriver(); // pastikan driver sudah siap
     }
 
     @After
     public void tearDown() {
-        // Biarkan kosong — browser ditutup oleh TestRunner.teardown() di akhir
+
     }
 }

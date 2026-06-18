@@ -14,8 +14,6 @@ public class DriverManager {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
-            // Aktifkan baris di bawah ini jika ingin menjalankan testing tanpa membuka jendela browser (headless)
-            // options.addArguments("--headless");
             driver = new ChromeDriver(options);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         }

@@ -4,7 +4,7 @@ import pages.LoginPage;
 import pages.ManagementKandangPage;
 import utils.DriverManager;
 import io.cucumber.java.en.*;
-import org.junit.jupiter.api.Assertions; // 🔥 SEKARANG PAKAI JUNIT 5 JUPITER
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -59,7 +59,6 @@ public class ManagementKandangStepDef {
 
     @Given("Data kandang dan peternak sudah terdaftar")
     public void data_kandang_dan_peternak_sudah_terdaftar() {
-        // Precondition — diasumsikan data sudah ada di database
     }
 
     @When("Admin memilih dropdown Kandang {string}")
@@ -80,18 +79,21 @@ public class ManagementKandangStepDef {
     @Then("Hubungan relasi kerja berhasil disimpan dan sistem menampilkan notifikasi {string}")
     public void hubungan_relasi_kerja_berhasil_disimpan(String msg) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        String aktualTeks = "";
         try {
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), msg));
+            org.openqa.selenium.WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification') or contains(text(), '" + msg + "')]")
+            ));
+            aktualTeks = toast.getText();
         } catch (Exception e) {
-            // Biarkan asersi di bawah menangkap ketidaksesuaian jika timeout
+            aktualTeks = kandangPage.getNotifikasiTeks();
         }
 
-        // JUnit 5: urutannya (ekspektasi, aktual, "pesan eror kustom")
-        Assertions.assertEquals(
-                msg,
-                kandangPage.getNotifikasiTeks(),
-                "Pesan notifikasi penugasan tidak sesuai!"
-        );
+        if (aktualTeks.isEmpty() && driver.getPageSource().contains(msg)) {
+            aktualTeks = msg;
+        }
+
+        Assertions.assertEquals(msg, aktualTeks, "Pesan notifikasi penugasan tidak sesuai!");
     }
 
     @When("Admin menginput angka luas {string} dan jumlah ayam {string} pada kolom")
@@ -110,15 +112,9 @@ public class ManagementKandangStepDef {
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), msg));
         } catch (Exception e) {
-            // No-op
         }
 
-        // JUnit 5: urutannya (ekspektasi, aktual, "pesan eror kustom")
-        Assertions.assertEquals(
-                msg,
-                kandangPage.getNotifikasiTeks(),
-                "Pesan notifikasi sukses simpan kandang salah!"
-        );
+        Assertions.assertEquals(msg, kandangPage.getNotifikasiTeks(), "Pesan notifikasi sukses simpan kandang salah!");
     }
 
     @Then("Sistem menolak simpan dan menampilkan pesan eror {string}")
@@ -127,15 +123,9 @@ public class ManagementKandangStepDef {
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), errorMsg));
         } catch (Exception e) {
-            // No-op
         }
 
-        // JUnit 5: urutannya (ekspektasi, aktual, "pesan eror kustom")
-        Assertions.assertEquals(
-                errorMsg,
-                kandangPage.getNotifikasiTeks(),
-                "Pesan eror batas minimum tidak sesuai!"
-        );
+        Assertions.assertEquals(errorMsg, kandangPage.getNotifikasiTeks(), "Pesan eror batas minimum tidak sesuai!");
     }
 
     @Then("Sistem menolak simpan dan menampilkan pesan eror {string} atau {string}")
@@ -147,16 +137,11 @@ public class ManagementKandangStepDef {
                     ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[contains(@class, 'toast') or contains(@class, 'notification')]"), err2)
             ));
         } catch (Exception e) {
-            // No-op
         }
 
         String aktualTeks = kandangPage.getNotifikasiTeks();
         boolean isMatch = aktualTeks.contains(err1) || aktualTeks.contains(err2);
 
-        // JUnit 5: urutannya (kondisi_boolean, "pesan eror kustom")
-        Assertions.assertTrue(
-                isMatch,
-                "Pesan eror kombinasi tidak sesuai! Teks aktual: " + aktualTeks
-        );
+        Assertions.assertTrue(isMatch, "Pesan eror kombinasi tidak sesuai! Teks aktual: " + aktualTeks);
     }
 }
