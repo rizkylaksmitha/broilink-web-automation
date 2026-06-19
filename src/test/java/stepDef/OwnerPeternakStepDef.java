@@ -112,6 +112,10 @@ public class OwnerPeternakStepDef {
         System.out.println("LOG: Mengakses halaman Monitoring: " + url);
         driver.get(url);
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
+
+        System.out.println("LOG: Refreshing halaman untuk sinkronisasi data...");
+        driver.navigate().refresh();
+        try { Thread.sleep(2000); } catch (InterruptedException e) {}
     }
 
     @Then("Card Suhu Aktual menampilkan nilai {string}")
