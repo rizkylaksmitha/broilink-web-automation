@@ -39,10 +39,10 @@ Feature: Modul Monitoring Sensor & Dashboard Owner BroiLink
 
   Scenario: TC-MON-05 Memastikan grafik menampilkan data sesuai rentang waktu filter (Historis)
     Given User membuka Halaman Monitoring "http://localhost:5173/owner/monitoring"
-    When User memilih filter jangka waktu "1 Hari Terakhir"
+    When User memilih filter jangka waktu "1 Minggu Terakhir"
     Then Grafik monitoring sensor berhasil ditampilkan
 
-  Scenario: TC-MON-07 Memastikan Card Kelembapan tampil dan menampilkan data BVA batas optimal
+  Scenario: TC-MON-06 Memastikan Card Kelembapan tampil dan menampilkan data BVA batas optimal
     Given User berada di Halaman Simulasi "http://localhost:5173/simulation"
     When User memilih Kandang "Kandang 1" di halaman simulasi
     And User mengatur slider Kelembapan ke "60" persen
@@ -51,7 +51,7 @@ Feature: Modul Monitoring Sensor & Dashboard Owner BroiLink
     And User membuka Halaman Monitoring "http://localhost:5173/owner/monitoring"
     Then Card Kelembapan Aktual menampilkan nilai "60%"
 
-  Scenario: TC-MON-08 Memastikan Dashboard Owner menampilkan kondisi kandang dan aktivitas peternakan terbaru
+  Scenario: TC-MON-07 Memastikan Dashboard Owner menampilkan kondisi kandang dan aktivitas peternakan terbaru
     Given User membuka Halaman Dashboard Owner "http://localhost:5173/owner/dashboard"
     Then Dashboard Owner menampilkan nama kandang "Kandang Sleman Utara" atau "Kandang 1"
     And Dashboard Owner menampilkan status kandang "Waspada" atau "Normal" atau "Aman"
